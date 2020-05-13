@@ -1,0 +1,17 @@
+{
+  "name": "CaloryCounter",
+  "displayName": "CaloryCounter",
+  "expo": {
+    "name": "CaloryCounter",
+    "slug": "CaloryCounter",
+    "version": "1.0.0",
+    "platforms": [
+      "ios",
+      "android",
+      "web"
+    ],
+    "assetBundlePatterns": [
+      "**/*"
+    ]
+  }
+}
