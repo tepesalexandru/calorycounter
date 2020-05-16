@@ -9,17 +9,28 @@ import {
 
 const AddItem = ({ addItem }) => {
   const [text, setText] = useState("");
+  const [amount, setAmount] = useState(0);
 
-  const onChange = (textValue) => setText(textValue);
+  const onChangeText = (textValue) => setText(textValue);
+
+  const onChangeAmount = (amountValue) => setAmount(amountValue);
 
   return (
     <View>
       <TextInput
         placeholder="Add Item..."
         style={styles.input}
-        onChangeText={onChange}
+        onChangeText={onChangeText}
       />
-      <TouchableOpacity onPress={() => addItem(text)} style={styles.btn}>
+      <TextInput
+        placeholder="Add amount..."
+        onChangeText={onChangeAmount}
+        style={styles.input}
+      />
+      <TouchableOpacity
+        onPress={() => addItem(text, amount)}
+        style={styles.btn}
+      >
         <Text style={styles.btnText}>Add Item</Text>
       </TouchableOpacity>
     </View>

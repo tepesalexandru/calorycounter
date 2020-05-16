@@ -6,6 +6,7 @@ const ListItem = ({ item, deleteItem }) => {
     <TouchableOpacity style={styles.listItem}>
       <View style={styles.listItemView}>
         <Text style={styles.listItemText}>{item.text}</Text>
+        <Text>{item.amount}g</Text>
         <Text
           onPress={() => {
             deleteItem(item.id);
