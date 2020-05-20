@@ -10,7 +10,7 @@ const Header = ({ title }) => {
 };
 
 Header.defaultProps = {
-  title: "Calory Counter",
+  title: "Calorie Counter",
 };
 
 const styles = StyleSheet.create({

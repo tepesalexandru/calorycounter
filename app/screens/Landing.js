@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { StyleSheet, Text, View, FlatList, Alert, Button } from "react-native";
 
+import AsyncStorage from "@react-native-community/async-storage";
+
 import Header from "../components/Header/Header";
 import ListItem from "../components/ListItem/ListItem";
 import AddItem from "../components/AddItem/AddItem";
@@ -13,6 +15,15 @@ export default function Landing({ navigation }) {
     { id: uuid(), text: "Bread", amount: 20 },
     { id: uuid(), text: "Juice", amount: 200 },
   ]);
+
+  const storeData = async (value) => {
+    try {
+      await AsyncStorage.setItem("testValue", value);
+      console.log("Item saved");
+    } catch (e) {
+      // saving error
+    }
+  };
 
   const deleteItem = (id) => {
     setItems((prevItems) => {
@@ -36,6 +47,7 @@ export default function Landing({ navigation }) {
       setItems((prevItems) => {
         return [{ id: uuid(), text, amount }, ...prevItems];
       });
+      storeData("Abocado");
     }
   };
   return (
