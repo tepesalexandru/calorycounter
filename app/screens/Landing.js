@@ -48,7 +48,10 @@ export default function Landing({ navigation }) {
           <ListItem item={item} deleteItem={deleteItem} />
         )}
       />
-      <Button onPress={() => navigation.navigate("Calendar")}>Hi</Button>
+      <Button
+        onPress={() => navigation.navigate("Calendar")}
+        title="Calendar"
+      ></Button>
     </View>
   );
 }
