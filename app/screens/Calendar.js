@@ -11,22 +11,41 @@ export default class CalendarsScreen extends Component {
     this.state = {
       selected: undefined,
       testString: "",
+      dataMap: null,
     };
+
+    this.getDataObj().then((data) => {
+      if (data == null) {
+        this.state.dataMap = new Map();
+      } else {
+        //this.state.dataMap = new Map(data);
+        console.log(data);
+      }
+      //console.log(dataMap);
+    });
   }
 
   onDayPress = (day) => {
     this.setState({ selected: day.dateString }, () => {
-      this.getData();
-      console.log(this.state.testString);
+      this.getDataObj().then((data) => console.log(data));
     });
   };
 
   getData = async () => {
     try {
-      const value = await AsyncStorage.getItem("testValue");
+      const value = await AsyncStorage.getItem("testMap");
       if (value !== null) {
-        testString = value;
+        console.log(value);
       }
+    } catch (e) {
+      // error reading value
+    }
+  };
+
+  getDataObj = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("testMap");
+      return jsonValue != null ? JSON.parse(jsonValue) : null;
     } catch (e) {
       // error reading value
     }

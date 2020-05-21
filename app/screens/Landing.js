@@ -1,5 +1,13 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList, Alert, Button, ImageBackground } from "react-native";
+import {
+  StyleSheet,
+  Text,
+  View,
+  FlatList,
+  Alert,
+  Button,
+  ImageBackground,
+} from "react-native";
 
 import AsyncStorage from "@react-native-community/async-storage";
 
@@ -11,18 +19,41 @@ import uuid from "uuid-random";
 
 export default function Landing({ navigation }) {
   const [items, setItems] = useState([
-    { id: uuid(), text: "Milk", amount: 100 , calories: 200 },
-    { id: uuid(), text: "Eggs", amount: 120 , calories: 400 },
-    { id: uuid(), text: "Bread", amount: 20 , calories: 100 },
-    { id: uuid(), text: "Juice", amount: 200 , calories: 300 },
+    { id: uuid(), text: "Milk", amount: 100, calories: 200 },
+    { id: uuid(), text: "Eggs", amount: 120, calories: 400 },
+    { id: uuid(), text: "Bread", amount: 20, calories: 100 },
+    { id: uuid(), text: "Juice", amount: 200, calories: 300 },
   ]);
 
   const storeData = async (value) => {
     try {
       await AsyncStorage.setItem("testValue", value);
-      console.log("Item saved");
+      console.log("Item saved", value);
     } catch (e) {
       // saving error
+    }
+  };
+
+  let myMap = new Map();
+
+  const storeDataObj = async (value) => {
+    try {
+      const jsonValue = JSON.stringify(value);
+      await AsyncStorage.setItem("testMap", jsonValue);
+      console.log("Object saved");
+    } catch (e) {
+      // saving error
+    }
+  };
+
+  const getData = async () => {
+    try {
+      const value = await AsyncStorage.getItem("testValue");
+      if (value !== null) {
+        console.log(value);
+      }
+    } catch (e) {
+      // error reading value
     }
   };
 
@@ -44,28 +75,34 @@ export default function Landing({ navigation }) {
           },
         ]
       );
+      getData();
     } else {
       setItems((prevItems) => {
         return [{ id: uuid(), text, amount }, ...prevItems];
       });
-      storeData("Abocado");
+      //storeData(text);
+      myMap["test"] = "Abocados";
+      storeDataObj(myMap);
     }
   };
   return (
     <View style={styles.container}>
-      <ImageBackground source={{ uri: '../images/Pattern.png'}} style={{width: '100%', height: '100%'}}>
-      <Header />
-      <AddItem addItem={addItem} />
-      <ListItemLabels />
-      <FlatList
-        style={styles.ListFlow}
-        data={items}
-        renderItem={({ item }) => (
-          <ListItem item={item} deleteItem={deleteItem} />
-        )}
-      />
-      <View style={styles.BottomBar}></View>
-      <Button onPress={() => navigation.navigate("Calendar")}>Hi</Button>
+      <ImageBackground
+        source={{ uri: "../images/Pattern.png" }}
+        style={{ width: "100%", height: "100%" }}
+      >
+        <Header />
+        <AddItem addItem={addItem} />
+        <ListItemLabels />
+        <FlatList
+          style={styles.ListFlow}
+          data={items}
+          renderItem={({ item }) => (
+            <ListItem item={item} deleteItem={deleteItem} />
+          )}
+        />
+        <View style={styles.BottomBar}></View>
+        <Button onPress={() => navigation.navigate("Calendar")}>Hi</Button>
       </ImageBackground>
     </View>
   );
