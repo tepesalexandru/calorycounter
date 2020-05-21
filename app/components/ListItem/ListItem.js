@@ -5,15 +5,22 @@ const ListItem = ({ item, deleteItem }) => {
   return (
     <TouchableOpacity style={styles.listItem}>
       <View style={styles.listItemView}>
-        <Text style={styles.listItemText}>{item.text}</Text>
-        <Text>{item.amount}g</Text>
         <Text
+          style={styles.Cross}
           onPress={() => {
             deleteItem(item.id);
           }}
         >
           X
         </Text>
+
+        <View style={styles.listData}>
+          <View style={styles.listItemData}>
+            <Text style={styles.listItemText}>{item.text}</Text>
+            <Text style={styles.secondaryDataOne}>{item.amount}g</Text>
+          </View>
+          <Text style={styles.secondaryDataTwo}>{item.calories} kcal</Text>
+        </View>
       </View>
     </TouchableOpacity>
   );
@@ -21,10 +28,36 @@ const ListItem = ({ item, deleteItem }) => {
 
 const styles = StyleSheet.create({
   listItem: {
-    padding: 15,
-    backgroundColor: "#f8f8f8",
-    borderBottomWidth: 1,
-    borderColor: "#eee",
+    paddingHorizontal: 20,
+    paddingVertical: 15,
+    backgroundColor: "#ffffff",
+    marginBottom: 10,
+    borderRadius: 5,
+    shadowColor: "#47C09B",
+    shadowOffset: {
+      width: 2,
+      height: 4,
+    },
+    shadowOpacity: 0.20,
+    shadowRadius: 5,
+  },
+  Cross: {
+    paddingRight: 20,
+  },
+  listData: {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  secondaryDataOne: {
+    color: "#2F855A",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  secondaryDataTwo: {
+    color: "#2F855A",
+    fontSize: 18,
+    fontWeight: "600",
   },
   listItemView: {
     flexDirection: "row",
@@ -32,7 +65,9 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   listItemText: {
-    fontSize: 18,
+    color: "#4A5568",
+    fontSize: 20,
+    fontWeight: "600",
   },
 });
 

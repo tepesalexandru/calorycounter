@@ -1,17 +1,18 @@
 import React, { useState } from "react";
-import { StyleSheet, Text, View, FlatList, Alert, Button } from "react-native";
+import { StyleSheet, Text, View, FlatList, Alert, Button, ImageBackground } from "react-native";
 
 import Header from "../components/Header/Header";
+import ListItemLabels from "../components/ListItemLabels/ListItemLabels";
 import ListItem from "../components/ListItem/ListItem";
 import AddItem from "../components/AddItem/AddItem";
 import uuid from "uuid-random";
 
 export default function Landing({ navigation }) {
   const [items, setItems] = useState([
-    { id: uuid(), text: "Milk", amount: 100 },
-    { id: uuid(), text: "Eggs", amount: 120 },
-    { id: uuid(), text: "Bread", amount: 20 },
-    { id: uuid(), text: "Juice", amount: 200 },
+    { id: uuid(), text: "Milk", amount: 100 , calories: 200 },
+    { id: uuid(), text: "Eggs", amount: 120 , calories: 400 },
+    { id: uuid(), text: "Bread", amount: 20 , calories: 100 },
+    { id: uuid(), text: "Juice", amount: 200 , calories: 300 },
   ]);
 
   const deleteItem = (id) => {
@@ -40,21 +41,28 @@ export default function Landing({ navigation }) {
   };
   return (
     <View style={styles.container}>
+      <ImageBackground source={{ uri: '../images/Pattern.png'}} style={{width: '100%', height: '100%'}}>
       <Header />
       <AddItem addItem={addItem} />
+      <ListItemLabels />
       <FlatList
+        style={styles.ListFlow}
         data={items}
         renderItem={({ item }) => (
           <ListItem item={item} deleteItem={deleteItem} />
         )}
       />
+      <View style={styles.BottomBar}></View>
       <Button onPress={() => navigation.navigate("Calendar")}>Hi</Button>
+      </ImageBackground>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: "#F7FAFC",
+    paddingHorizontal: 15,
     flex: 1,
   },
 });

@@ -10,19 +10,19 @@ const Header = ({ title }) => {
 };
 
 Header.defaultProps = {
-  title: "Calory Counter",
+  title: "Calorie Counter",
 };
 
 const styles = StyleSheet.create({
   header: {
     height: 60,
     padding: 15,
-    backgroundColor: "darkslateblue",
   },
   text: {
-    color: "#fff",
+    color: "#38B2AC",
     fontSize: 23,
-    textAlign: "center",
+    textAlign: "left",
+    fontWeight: "bold",
   },
 });
 
