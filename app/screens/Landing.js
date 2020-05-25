@@ -17,6 +17,7 @@ import ListItemLabels from "../components/ListItemLabels/ListItemLabels";
 import ListItem from "../components/ListItem/ListItem";
 import AddItem from "../components/AddItem/AddItem";
 import uuid from "uuid-random";
+import { getDataObj } from "../config/GetData";
 
 export default function Landing({ navigation }) {
   // Give each item imported from the JSON file a unique ID
@@ -25,8 +26,19 @@ export default function Landing({ navigation }) {
   // Create an items state
   const [items, setItems] = useState(foods);
 
-  // Create an empty array to store the foods of today
+  // Retrieve the global data
   let myMap = [];
+
+  /// If the map is non-existent (first time using the app)
+  if (myMap.length == 0) {
+    myMap.push({
+      date: "2020-05-25",
+      foodArray: foods,
+    });
+  }
+
+  /// Map saved!
+  storeDataObj("GLOBAL_MAP", myMap);
 
   /// Function to delete an item from the item state by id
   const deleteItem = (id) => {
@@ -58,26 +70,24 @@ export default function Landing({ navigation }) {
         return [{ id: uuid(), name: text, amount }, ...prevItems];
       });
 
-      let found = myMap.find((e) => e.date == "2020-05-20");
+      let foundIndex = myMap.findIndex((e) => e.date == "2020-05-25");
       // If today's map already exists
-      if (found) {
-        /*console.log("Map found!");
-        found.foods = items;
-        console.log(myMap);
-        console.log(found);*/
+      if (foundIndex != null) {
+        console.log("Today's map found!");
+        myMap[foundIndex].foodArray.push({
+          name: text,
+          amount,
+          kcal: 300,
+        });
       }
       // If the map doesn't exist, we push the current date to the map
       else {
-        /*console.log("this is the current map", myMap);
-        myMap.push({
-          date: "2020-05-20",
-          foods: items,
-        });*/
+        console.log("Today's map is not found!");
       }
       //console.log("New map created", myMap);
 
       // Save the list locally into an array of objects
-      storeDataObj(myMap);
+      //storeDataObj(myMap);
     }
   };
 

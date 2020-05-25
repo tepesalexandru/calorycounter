@@ -17,29 +17,20 @@ export default class CalendarsScreen extends Component {
     };
 
     /// Retrieve data from the local storage
-    getDataObj().then((data) => {
-      // If there is no available data
-      if (data == null) {
-        this.state.dataMap = [];
-      }
-      // If there is available data
-      else {
-        // Assign the existing data to the dataMap
-        this.state.dataMap = data;
-        /*let found = data.find((e) => e.date === "2020-05-20");
-        console.log(found);*/
-      }
+    getDataObj("GLOBAL_MAP").then((data) => {
+      this.setState({ dataMap: data });
     });
   }
 
   /// Function to handle pressing on a calendar date
   onDayPress = async (day) => {
     await this.setState({ selected: day.dateString });
-    let found = this.state.dataMap.find((e) => e.date === this.state.selected);
+    let found = this.state.dataMap.find((e) => e.date == this.state.selected);
     if (found) {
       //this.state.dataMessage = "" + found.foods.length + " foods.";
+      console.log(found.foodArray);
       this.setState({
-        dataMessage: "" + found.foods.length + " foods.",
+        dataMessage: "" + found.foodArray.length + " foods.",
       });
     } else {
       this.setState({

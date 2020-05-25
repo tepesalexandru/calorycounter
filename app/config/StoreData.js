@@ -2,9 +2,9 @@ import React from "react";
 import AsyncStorage from "@react-native-community/async-storage";
 
 /// Function to save a string in the local storage
-export const storeData = async (value) => {
+export const storeData = async (ITEM_KEY, value) => {
   try {
-    await AsyncStorage.setItem("testValue", value);
+    await AsyncStorage.setItem(ITEM_KEY, value);
     console.log("Item saved", value);
   } catch (e) {
     // saving error
@@ -12,10 +12,10 @@ export const storeData = async (value) => {
 };
 
 /// Function to save an object in the local storage
-export const storeDataObj = async (value) => {
+export const storeDataObj = async (ITEM_KEY, value) => {
   try {
     const jsonValue = JSON.stringify(value);
-    await AsyncStorage.setItem("testMap", jsonValue);
+    await AsyncStorage.setItem(ITEM_KEY, jsonValue);
     console.log("Object saved");
   } catch (e) {
     // saving error
