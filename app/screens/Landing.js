@@ -1,4 +1,6 @@
 import React, { useState } from "react";
+
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import {
   StyleSheet,
   Text,
@@ -7,7 +9,13 @@ import {
   Alert,
   Button,
   ImageBackground,
+  Dimensions
 } from "react-native";
+
+var vWidth = Dimensions.get('window').width;
+
+
+import { LinearGradient } from 'expo-linear-gradient';
 
 import { foods } from "../config/defaultFoods";
 import { storeDataObj } from "../config/StoreData";
@@ -93,10 +101,6 @@ export default function Landing({ navigation }) {
 
   return (
     <View style={styles.container}>
-      <ImageBackground
-        source={{ uri: "../images/Pattern.png" }}
-        style={{ width: "100%", height: "100%" }}
-      >
         <Header />
         <AddItem addItem={addItem} />
         <ListItemLabels />
@@ -107,12 +111,36 @@ export default function Landing({ navigation }) {
             <ListItem item={item} deleteItem={deleteItem} />
           )}
         />
-        <View style={styles.BottomBar}></View>
-        <Button
-          onPress={() => navigation.navigate("Calendar")}
-          title="Calendar"
-        ></Button>
-      </ImageBackground>
+        <LinearGradient
+          colors={['rgba(255,255,255,0)', 'rgba(255,255,255,1)']}
+          style={styles.bottomBarBack}
+        />
+        <View style={styles.bottomBar}>
+
+          <View style={styles.sideIcons}>
+          <Button
+            onPress={() => navigation.navigate("Calendar")}
+            title="Calendar"
+          ></Button>
+          </View>
+
+
+          <View style={styles.centerIcon}>
+          <View style={styles.plusIcon}>
+          <View style={styles.plusIconInner}>
+            <Icon name="plus" size={20} color="#2F855A" />
+          </View>
+          </View>
+          </View>
+
+          <View style={styles.sideIcons}>
+          <Button
+            onPress={() => navigation.navigate("Calendar")}
+            title="Edit Items"
+          ></Button>
+          </View>
+
+        </View>
     </View>
   );
 }
@@ -122,5 +150,57 @@ const styles = StyleSheet.create({
     backgroundColor: "#F7FAFC",
     paddingHorizontal: 15,
     flex: 1,
+  },
+  bottomBarBack: {
+    position: "absolute",
+    alignSelf: "stretch",
+    width: vWidth,
+    height: 80,
+    bottom: 0,
+    left: 0,
+  },
+  bottomBar: {
+    backgroundColor: "#ffffff",
+    position: "absolute",
+    alignSelf: "stretch",
+    width: vWidth,
+    bottom: 0,
+    left: 0,
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "flex-end",
+    shadowColor: "#47C09B",
+    shadowOffset: {
+      width: -2,
+      height: -4,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
+  },
+  sideIcons: {
+    flex: 2,
+  },
+  centerIcon: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  plusIconInner: {
+    borderWidth: 4,
+    borderColor: "#47C09B",
+    width: 45,
+    height: 45,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    borderRadius: 500,
+    shadowColor: "#47C09B",
+    shadowOffset: {
+      width: 2,
+      height: 4,
+    },
+    shadowOpacity: 0.2,
+    shadowRadius: 5,
   },
 });

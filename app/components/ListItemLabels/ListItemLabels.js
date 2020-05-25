@@ -15,6 +15,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingHorizontal: 20,
+    marginBottom: 10,
   },
   LabelText: {
     color: "#718096",

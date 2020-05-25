@@ -1,4 +1,5 @@
 import React from "react";
+import Icon from 'react-native-vector-icons/FontAwesome5';
 import { View, Text, StyleSheet, TouchableOpacity } from "react-native";
 
 const ListItem = ({ item, deleteItem }) => {
@@ -11,7 +12,7 @@ const ListItem = ({ item, deleteItem }) => {
             deleteItem(item.id);
           }}
         >
-          X
+          <Icon name="times-circle" size={25} color="#2F855A" />
         </Text>
 
         <View style={styles.listData}>
