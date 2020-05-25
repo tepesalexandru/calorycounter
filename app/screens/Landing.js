@@ -9,7 +9,8 @@ import {
   ImageBackground,
 } from "react-native";
 
-import AsyncStorage from "@react-native-community/async-storage";
+import { foods } from "../config/defaultFoods";
+import { storeDataObj } from "../config/StoreData";
 
 import Header from "../components/Header/Header";
 import ListItemLabels from "../components/ListItemLabels/ListItemLabels";
@@ -18,53 +19,27 @@ import AddItem from "../components/AddItem/AddItem";
 import uuid from "uuid-random";
 
 export default function Landing({ navigation }) {
-  const [items, setItems] = useState([
-    { id: uuid(), text: "Milk", amount: 100, calories: 200 },
-    { id: uuid(), text: "Eggs", amount: 120, calories: 400 },
-    { id: uuid(), text: "Bread", amount: 20, calories: 100 },
-    { id: uuid(), text: "Juice", amount: 200, calories: 300 },
-  ]);
+  // Give each item imported from the JSON file a unique ID
+  foods.forEach((e) => (e.id = uuid()));
 
-  const storeData = async (value) => {
-    try {
-      await AsyncStorage.setItem("testValue", value);
-      console.log("Item saved", value);
-    } catch (e) {
-      // saving error
-    }
-  };
+  // Create an items state
+  const [items, setItems] = useState(foods);
 
-  let myMap = new Map();
+  // Create an empty array to store the foods of today
+  let myMap = [];
 
-  const storeDataObj = async (value) => {
-    try {
-      const jsonValue = JSON.stringify(value);
-      await AsyncStorage.setItem("testMap", jsonValue);
-      console.log("Object saved");
-    } catch (e) {
-      // saving error
-    }
-  };
-
-  const getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem("testValue");
-      if (value !== null) {
-        console.log(value);
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
-
+  /// Function to delete an item from the item state by id
   const deleteItem = (id) => {
     setItems((prevItems) => {
       return prevItems.filter((item) => item.id != id);
     });
   };
 
+  /// Function to add an item to the items state
   const addItem = (text, amount) => {
+    // If the input form of the item name is empty
     if (!text) {
+      // Create an Alert box
       Alert.alert(
         "No item entered",
         "Please enter an item when adding to your shopping list",
@@ -75,16 +50,37 @@ export default function Landing({ navigation }) {
           },
         ]
       );
-      getData();
-    } else {
+    }
+    // If the input form of the item is not empty
+    else {
+      // Add the new item to the react state
       setItems((prevItems) => {
-        return [{ id: uuid(), text, amount }, ...prevItems];
+        return [{ id: uuid(), name: text, amount }, ...prevItems];
       });
-      //storeData(text);
-      myMap["test"] = "Abocados";
+
+      let found = myMap.find((e) => e.date == "2020-05-20");
+      // If today's map already exists
+      if (found) {
+        /*console.log("Map found!");
+        found.foods = items;
+        console.log(myMap);
+        console.log(found);*/
+      }
+      // If the map doesn't exist, we push the current date to the map
+      else {
+        /*console.log("this is the current map", myMap);
+        myMap.push({
+          date: "2020-05-20",
+          foods: items,
+        });*/
+      }
+      //console.log("New map created", myMap);
+
+      // Save the list locally into an array of objects
       storeDataObj(myMap);
     }
   };
+
   return (
     <View style={styles.container}>
       <ImageBackground
@@ -102,7 +98,10 @@ export default function Landing({ navigation }) {
           )}
         />
         <View style={styles.BottomBar}></View>
-        <Button onPress={() => navigation.navigate("Calendar")}>Hi</Button>
+        <Button
+          onPress={() => navigation.navigate("Calendar")}
+          title="Calendar"
+        ></Button>
       </ImageBackground>
     </View>
   );

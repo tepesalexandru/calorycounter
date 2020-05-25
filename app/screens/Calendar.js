@@ -2,52 +2,51 @@ import React, { Component } from "react";
 import { StyleSheet, View, Text } from "react-native";
 import { Calendar } from "react-native-calendars";
 
-import AsyncStorage from "@react-native-community/async-storage";
+import { getDataObj } from "../config/GetData";
 
 export default class CalendarsScreen extends Component {
   constructor(props) {
     super(props);
 
+    // Set the default states
     this.state = {
       selected: undefined,
       testString: "",
       dataMap: null,
+      dataMessage: "No data available.",
     };
 
-    this.getDataObj().then((data) => {
+    /// Retrieve data from the local storage
+    getDataObj().then((data) => {
+      // If there is no available data
       if (data == null) {
-        this.state.dataMap = new Map();
-      } else {
-        //this.state.dataMap = new Map(data);
-        console.log(data);
+        this.state.dataMap = [];
       }
-      //console.log(dataMap);
+      // If there is available data
+      else {
+        // Assign the existing data to the dataMap
+        this.state.dataMap = data;
+        /*let found = data.find((e) => e.date === "2020-05-20");
+        console.log(found);*/
+      }
     });
   }
 
-  onDayPress = (day) => {
-    this.setState({ selected: day.dateString }, () => {
-      this.getDataObj().then((data) => console.log(data));
-    });
-  };
-
-  getData = async () => {
-    try {
-      const value = await AsyncStorage.getItem("testMap");
-      if (value !== null) {
-        console.log(value);
-      }
-    } catch (e) {
-      // error reading value
-    }
-  };
-
-  getDataObj = async () => {
-    try {
-      const jsonValue = await AsyncStorage.getItem("testMap");
-      return jsonValue != null ? JSON.parse(jsonValue) : null;
-    } catch (e) {
-      // error reading value
+  /// Function to handle pressing on a calendar date
+  onDayPress = async (day) => {
+    await this.setState({ selected: day.dateString });
+    let found = this.state.dataMap.find((e) => e.date === this.state.selected);
+    if (found) {
+      //this.state.dataMessage = "" + found.foods.length + " foods.";
+      this.setState({
+        dataMessage: "" + found.foods.length + " foods.",
+      });
+    } else {
+      this.setState({
+        dataMessage: "No foods eaten on this date.",
+      });
+      //this.state.dataMessage = "No foods eaten on this date.";
+      //console.log(this.state.selected);
     }
   };
 
@@ -60,13 +59,12 @@ export default class CalendarsScreen extends Component {
           markedDates={{
             [this.state.selected]: {
               selected: true,
-              disableTouchEvent: true,
-              selectedDotColor: "orange",
+              disableTouchEvent: false,
             },
           }}
         />
         <Text style={styles.text}>Day selected: {this.state.selected}</Text>
-        <Text style={styles.dataText}>No data available.</Text>
+        <Text style={styles.dataText}>{this.state.dataMessage}</Text>
       </View>
     );
   }

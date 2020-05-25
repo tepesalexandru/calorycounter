@@ -16,10 +16,10 @@ const ListItem = ({ item, deleteItem }) => {
 
         <View style={styles.listData}>
           <View style={styles.listItemData}>
-            <Text style={styles.listItemText}>{item.text}</Text>
+            <Text style={styles.listItemText}>{item.name}</Text>
             <Text style={styles.secondaryDataOne}>{item.amount}g</Text>
           </View>
-          <Text style={styles.secondaryDataTwo}>{item.calories} kcal</Text>
+          <Text style={styles.secondaryDataTwo}>{item.kcal} kcal</Text>
         </View>
       </View>
     </TouchableOpacity>
@@ -38,7 +38,7 @@ const styles = StyleSheet.create({
       width: 2,
       height: 4,
     },
-    shadowOpacity: 0.20,
+    shadowOpacity: 0.2,
     shadowRadius: 5,
   },
   Cross: {
