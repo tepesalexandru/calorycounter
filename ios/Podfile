@@ -45,4 +45,6 @@ target 'CaloryCounter' do
   use_native_modules!
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
+  pod 'SRSRadialGradient', :path => '../node_modules/react-native-radial-gradient'
+
 end

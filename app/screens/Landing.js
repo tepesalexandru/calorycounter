@@ -9,18 +9,17 @@ import {
   Alert,
   Button,
   ImageBackground,
-  Dimensions
+  Dimensions,
+  TouchableOpacity
 } from "react-native";
 
 var vWidth = Dimensions.get('window').width;
-
-
-import { LinearGradient } from 'expo-linear-gradient';
 
 import { foods } from "../config/defaultFoods";
 import { storeDataObj } from "../config/StoreData";
 
 import Header from "../components/Header/Header";
+import BigCircle from "../components/BigCircle/BigCircle";
 import ListItemLabels from "../components/ListItemLabels/ListItemLabels";
 import ListItem from "../components/ListItem/ListItem";
 import AddItem from "../components/AddItem/AddItem";
@@ -102,6 +101,7 @@ export default function Landing({ navigation }) {
   return (
     <View style={styles.container}>
         <Header />
+        <BigCircle />
         <AddItem addItem={addItem} />
         <ListItemLabels />
         <FlatList
@@ -111,37 +111,42 @@ export default function Landing({ navigation }) {
             <ListItem item={item} deleteItem={deleteItem} />
           )}
         />
-        <LinearGradient
-          colors={['rgba(255,255,255,0)', 'rgba(255,255,255,1)']}
-          style={styles.bottomBarBack}
-        />
+        
+
         <View style={styles.bottomBar}>
 
           <View style={styles.sideIcons}>
-          <Button
+          <TouchableOpacity
+            style={styles.bottomButtons}
             onPress={() => navigation.navigate("Calendar")}
-            title="Calendar"
-          ></Button>
+          >
+            <Icon name="calendar-alt" size={20} color="#38B2AC" />
+            <Text style={styles.ButtonText}>Calendar</Text>
+          </TouchableOpacity>
           </View>
 
 
           <View style={styles.centerIcon}>
-          <View style={styles.plusIcon}>
+          <TouchableOpacity style={styles.plusIcon}>
           <View style={styles.plusIconInner}>
-            <Icon name="plus" size={20} color="#2F855A" />
+            <Icon name="plus" size={20} color="#4FD1C5" />
           </View>
-          </View>
+          </TouchableOpacity>
           </View>
 
           <View style={styles.sideIcons}>
-          <Button
+          <TouchableOpacity
+            style={styles.bottomButtons}
             onPress={() => navigation.navigate("Calendar")}
-            title="Edit Items"
-          ></Button>
+          >
+            <Icon name="edit" size={20} color="#38B2AC" />
+            <Text style={styles.ButtonText}>Edit Items</Text>
+          </TouchableOpacity>
           </View>
 
         </View>
     </View>
+    
   );
 }
 
@@ -151,19 +156,15 @@ const styles = StyleSheet.create({
     paddingHorizontal: 15,
     flex: 1,
   },
-  bottomBarBack: {
-    position: "absolute",
-    alignSelf: "stretch",
-    width: vWidth,
-    height: 80,
-    bottom: 0,
-    left: 0,
+  ListFlow: {
+    zIndex: 1,
+    paddingBottom: 40,
   },
   bottomBar: {
-    backgroundColor: "#ffffff",
+    zIndex: 10,
     position: "absolute",
     alignSelf: "stretch",
-    width: vWidth,
+    width: "100%",
     bottom: 0,
     left: 0,
     flex: 1,
@@ -178,22 +179,15 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.2,
     shadowRadius: 5,
   },
-  sideIcons: {
-    flex: 2,
-  },
   centerIcon: {
+    backgroundColor: "#ffffff",
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
   },
-  plusIconInner: {
+  plusIcon: {
     borderWidth: 4,
-    borderColor: "#47C09B",
-    width: 45,
-    height: 45,
-    justifyContent: "center",
-    alignItems: "center",
-    backgroundColor: "#ffffff",
+    borderColor: "#ffffff",
     borderRadius: 500,
     shadowColor: "#47C09B",
     shadowOffset: {
@@ -202,5 +196,33 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.2,
     shadowRadius: 5,
+  },
+  plusIconInner: {
+    borderWidth: 4,
+    borderColor: "#76EFB2",
+    width: 45,
+    height: 45,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#ffffff",
+    borderRadius: 500,
+  },
+  sideIcons: {
+    backgroundColor: "#ffffff",
+    flex: 2,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  bottomButtons: {
+    paddingVertical: 15,
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  ButtonText: {
+    color: "#2C7A7B",
+    marginLeft: 10,
+    fontSize: 18,
+    fontWeight: "600",
   },
 });

@@ -51,12 +51,12 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
   },
   secondaryDataOne: {
-    color: "#2F855A",
+    color: "#2C7A7B",
     fontSize: 16,
     fontWeight: "600",
   },
   secondaryDataTwo: {
-    color: "#2F855A",
+    color: "#2C7A7B",
     fontSize: 18,
     fontWeight: "600",
   },
